@@ -20,14 +20,16 @@
 
 ![](img/6.png)
 
-* Filtrado por los dn
+* Filtrado por los dn.
 
 ![](img/10.png)
 
 ## 4.3 Comprobar los usuarios creados
 
-* agregamos los usuarios
+* Creación de usuarios.
 
 ![](img/8.png)
+
+* Comprobación desde el cliente.
 
 ![](img/9.png)
