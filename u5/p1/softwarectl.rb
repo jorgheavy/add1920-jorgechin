@@ -32,32 +32,29 @@ def get_version
 end
 
 def show_status(package)
-  status = `whereis #{package[0]} |grep bin |wc -l`.to_i
-
-    if status == 0
-      puts "#{package[0]} No instalado"
-    elsif status == 1
-      puts "#{package[0]} Instalado"
+  status = `whereis #{package[0]} |grep bin |wc -l`.chop
+    if status == "0"
+      puts "#{package[0]} -  No instalado"
+    elsif status == "1"
+      puts "#{package[0]} -  Instalado"
     end
 end
 
 def run(package)
-  status = `whereis #{package[0]} |grep bin |wc -l`.to_i
-  action = "#{package[1]}".to_s
-
-  if action == "install"
-    if status == 0
+  status = `whereis #{package[0]} |grep bin |wc -l`.chop
+  if package[1] == "install"
+    if status == "0"
       `apt-get install -y #{package[0]}`
-      puts "#{package[0]} Correctamente"
-    elsif status == 1
+      puts "#{package[0]} Correctamente instalado"
+    elsif status == "1"
       puts "#{package[0]} Ya existe"
     end
 
-  elsif action == "remove"
-    if status == 1
+  elsif package[1] == "remove"
+    if status == "1"
       `apt-get --purge remove -y #{package[0]}`
       puts "#{package[0]} Correctamente desinstalado"
-    elsif status == 0
+    elsif status == "0"
       puts "#{package[0]} No se encuentra instalado"
     end
   end
@@ -73,26 +70,23 @@ elsif option == "--version"
   get_version
 
 elsif option == '--status'
-  file = `cat #{filename}`
-  f_lines = file.split("\n")
-  f_lines.each do |a|
-    package = a.split(":")
-    check(package)
+  lines = `cat #{filename}`.split("\n")
+  lines.each do |p|
+    package = p.split(":")
+    show_status(package)
   end
 
 elsif option == '--run'
-  user = `id -u`.to_i
+  user = `id -u`.chop
+  if user == "0"
+    lines = `cat #{filename}`.split("\n")
+    lines.each do |p|
+      package = p.split(":")
+      run(package)
+    end
 
-  if user == 0
-    file = `cat #{filename}`
-    f_lines = file.split("\n")
-    f_lines.each do |a|
-      package = a.split(":")
-      install(package)
-  end
-
-  elsif user != 0
-    puts "Se necesita ser usuario root para ejecutar el script"
+  else
+    puts "Son necesarios permisos de administrador..."
     exit 1
   end
 
