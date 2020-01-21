@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+
+# script /usr/local/bin/bot11controller
+status=`systemctl is-active bot11.service`.chop
+
+if status == 'failed'
+  system("systemctl restart bot11")
+  logmsg = "[#{Time.now}]: bot11controller iniciando el servico..."
+else
+  logmsg = "[#{Time.now}]: bot11controller no hace nada!"
+end
+system("echo #{logmsg} >> /etc/bot11/log")

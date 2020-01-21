@@ -1,0 +1,19 @@
+#fichero de configuración del servicio /usr/lib/systemd/system/bot11.service
+
+[Unit]
+Description=Servicio Bot del alumno Marte11, Jorge Chinea.
+After=network.service
+
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ruby /usr/local/bin/bot11d
+
+
+#probando copiar configuracion del servicio cups
+#After=network-pre.target wickedd.service wickedd-nanny.service
+#Before=network-online.target network.target
+
+
+[Install]
+WantedBy=multi-user.target

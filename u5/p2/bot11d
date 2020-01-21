@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+
+# script bot /usr/local/bin/bot11d
 require 'telegram/bot'
 
 def get_network_information
@@ -22,8 +24,8 @@ end
 # token:
 # 1. Write your TOKEN value into "token" variable or
 # 2. Create a local file "hiden.token" with your TOKEN value inside
-token = `cat hide.token`.strip
-bot_username = '@dvarrui_bot'
+token = `cat /etc/bot11/hide.token`.strip
+bot_username = '@chinea11_bot'
 
 puts "[INFO] Running bot #{$0}..."
 
@@ -33,13 +35,17 @@ Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
     puts " => #{message.text}"
     if message.text == "/device"
-      bot.api.send_message(chat_id: message.chat.id, text: "el dispositivo es #{data[:device]}")
+      bot.api.send_message(chat_id: message.chat.id, text: "La interfaz
+de red es #{data[:device]}")
     elsif message.text == "/ip"
-      bot.api.send_message(chat_id: message.chat.id, text: "el dispositivo es #{data[:ip]}")
+      bot.api.send_message(chat_id: message.chat.id, text: "La IP de la
+máquina es #{data[:ip]}")
     elsif message.text == "/gateway"
-      bot.api.send_message(chat_id: message.chat.id, text: "el dispositivo es #{data[:gateway]}")
+      bot.api.send_message(chat_id: message.chat.id, text: "La puerta de
+enlace/gateway es #{data[:gateway]}")
     elsif message.text == "/dns"
-      bot.api.send_message(chat_id: message.chat.id, text: "el dispositivo es #{data[:dns]}")
+      bot.api.send_message(chat_id: message.chat.id, text: "DNS =
+#{data[:dns]}")
     end
   end
 end
