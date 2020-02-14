@@ -319,29 +319,8 @@ Desde otra terminal:
     * URL `http://localhost:PORTNUMBER`
     * URL `http://localhost:PORTNUMBER/holamundo.html`
 
----
-# 6. Migrar las imágenes de docker a otro servidor
 
-¿Cómo puedo llevar los contenedores Docker a un nuevo servidor?
-
-> Enlaces de interés
->
-> * https://www.odooargentina.com/forum/ayuda-1/question/migrar-todo-a-otro-servidor-imagenes-docker-397
-> * http://linoxide.com/linux-how-to/backup-restore-migrate-containers-docker/
-
-**Exportar** imagen Docker a fichero tar:
-* `docker save -o ~/alumnoXX.tar nombre-alumno/server`, guardamos la imagen
-"nombre-alumno/server" en un fichero tar.
-
-**Importar** imagen Docker desde fichero:
-* Nos llevamos el tar a otra máquina con docker instalado, y restauramos.
-* `docker load -i ~/alumnoXX.tar`, cargamos la imagen docker a partir del fichero tar.
-* `docker images`, comprobamos que la nueva imagen está disponible.
-
-Ya podemos crear contenedores a partir de la nueva imagen.
-
----
-# 7. Limpiar
+# 6. Limpiar
 
 Cuando terminamos con los contenedores, y ya no lo necesitamos, es buena idea pararlos y/o destruirlos.
 * `docker ps -a`
