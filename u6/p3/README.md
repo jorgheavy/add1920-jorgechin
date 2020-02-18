@@ -1,11 +1,7 @@
-# Contenedores con Docker.
+# 1.Contenedores con Docker.
 > Enlaces de interés
 > * [Docker for beginners](http://prakhar.me/docker-curriculum/)
 > * [getting-started-with-docker](http://www.linux.com/news/enterprise/systems-management/873287-getting-started-with-docker)
-
-Es muy común que nos encontremos desarrollando una aplicación, y llegue el momento que decidamos tomar todos sus archivos y migrarlos, ya sea al ambiente de producción, de prueba, o simplemente probar su comportamiento en diferentes plataformas y servicios.
-
-Para situaciones de este estilo existen herramientas que, entre otras cosas, nos facilitan el embalaje y despliegue de la aplicación, es aquí donde entra en juego los contenedores (Por ejemplo Docker o Podman).
 
 Esta herramienta nos permite crear "contenedores", que son aplicaciones empaquetadas auto-suficientes, muy livianas, capaces de funcionar en prácticamente cualquier ambiente, ya que tiene su propio sistema de archivos, librerías, terminal, etc.
 
@@ -265,17 +261,20 @@ Intercambiar nuestra imagen exportada con la de un compañero de clase.
 
 Ya podemos crear contenedores a partir de la nueva imagen.
 
-# 5. Crear un contenedor a partir de un `Dockerfile`
+# 5. Crear un contenedor a partir de un `Dockerfile`.
 
 Ahora vamos a conseguir el mismo resultado del apartado anterior, pero
 usando un fichero de configuración, llamado `Dockerfile`.
 
-## 5.1 Preparar ficheros
+## 5.1 Preparar ficheros.
 
 * Crear directorio `/home/nombre-alumno/dockerXX`.
 * Entrar el directorio anterior.
 * Poner copia del fichero `holamundo.html` anterior.
 * Poner copia del fichero `server.sh` anterior.
+
+![](img/21.png)
+
 * Crear el fichero `Dockerfile` con el siguiente contenido:
 
 ```
@@ -298,6 +297,8 @@ EXPOSE 80
 CMD ["/root/server.sh"]
 ```
 
+![](img/22.png)
+
 ## 5.2 Crear imagen a partir del `Dockerfile`
 
 El fichero Dockerfile contiene toda la información necesaria para construir el contenedor, veamos:
@@ -306,12 +307,19 @@ El fichero Dockerfile contiene toda la información necesaria para construir el 
 * `docker build -t nombre-alumno/server .`, construye una nueva imagen a partir del Dockerfile. OJO: el punto final es necesario.
 * `docker images`, ahora debe aparecer nuestra nueva imagen.
 
-## 5.4 Crear contenedor y comprobar
+![](img/23.png)
 
-A continuación vamos a crear un contenedor con el nombre `con_server`, a partir de la imagen `dvarrui/server`. Probaremos con:
+## 5.3 Crear contenedor y comprobar
 
-* `docker run --name=con_server -t nombre-alumno/server`
-* `docker run --name=con_server -t nombre-alumno/server /root/server.sh`
+A continuación vamos a crear un contenedor con el nombre app4nginx2, a partir de la imagen nombre-alumno/nginx2. Probaremos con:
+
+ * docker run --name=app4nginx2 -p 8080:80 -t nombre-alumno/nginx2
+
+ ![](img/24.png)
+
+Me surgió el siguiente error en este apartado y se soluciono tras instalar las guess additions.
+
+The command '/bin/sh -c apt-get update' returned a non-zero code: 100
 
 Desde otra terminal:
 * `docker...`, para averiguar el puerto de escucha del servidor Nginx.
@@ -320,12 +328,45 @@ Desde otra terminal:
     * URL `http://localhost:PORTNUMBER/holamundo.html`
 
 
+
+
+## 5.4 Usar imágenes ya creadas
+
+El ejemplo anterior donde creábamos una imagen Docker con Nginx se puede simplificar aún más aprovechando imágenes oficiales que ya existen.
+
+  * Crea el directorio `dockerXXb`. Entrar al directorio.
+  * Crea el siguiente `Dockerfile`
+
+  ```
+  FROM nginx
+
+  COPY holamundo.html /usr/share/nginx/html
+  RUN chmod 666 /usr/share/nginx/html/holamundo.html
+  ```
+
+  * Poner el el directorio `dockerXXb` los ficheros que se requieran para construir el contenedor.
+  * `docker build -t nombre-alumno/nginx3 .`, crear la imagen.
+
+  * `docker run --name=app5nginx3 -d -p 8080:80 nombre-alumno/nginx3`, crear contenedor.
+
+  ![](img/25.png)
+
+  ![](img/26.png)
+
 # 6. Limpiar
 
 Cuando terminamos con los contenedores, y ya no lo necesitamos, es buena idea pararlos y/o destruirlos.
 * `docker ps -a`
 * `docker stop ...`
+
+![](img/27.png)
+
 * `docker rm ...`
+
+![](img/28.png)
+
 Lo mismo con las imágenes:
 * `docker images`
 * `docker rmi ...`
+
+![](img/29.png)
